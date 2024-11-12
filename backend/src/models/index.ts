@@ -16,7 +16,7 @@ interface DatabaseConfig {
 }
 
 // Importation du fichier de configuration
-const config: DatabaseConfig = require(path.join(__dirname, '/../config/config.json'))[env];
+const config: DatabaseConfig = require(path.join(__dirname, '/../config/config.js'))[env];
 
 // Déclaration du type pour notre base de données
 interface DB {
