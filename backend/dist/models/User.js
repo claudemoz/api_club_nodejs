@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("./index"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class User extends sequelize_1.Model {
     static associate(models) {
     }
@@ -41,8 +41,8 @@ User.init({
     hooks: {
         beforeCreate: async (user) => {
             if (user.password) {
-                const salt = await bcrypt_1.default.genSalt();
-                const hashedPassword = await bcrypt_1.default.hash(user.password, salt);
+                const salt = await bcryptjs_1.default.genSalt();
+                const hashedPassword = await bcryptjs_1.default.hash(user.password, salt);
                 user.password = hashedPassword;
             }
             if (user.lastname) {

@@ -2,7 +2,7 @@
 
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import sequelize from './index';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 interface UserAttributes {
   user_id: number;

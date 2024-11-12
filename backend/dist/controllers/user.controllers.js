@@ -7,7 +7,7 @@ exports.editRole = exports.logout = exports.login = exports.register = void 0;
 const User_1 = __importDefault(require("@/models/User"));
 const UserFeature_1 = __importDefault(require("@/models/UserFeature"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const keys_1 = __importDefault(require("@/config/keys"));
 const EXPIRATION_TOKEN = 259200000;
 const register = async (req, res) => {
@@ -37,7 +37,7 @@ const login = async (req, res) => {
             res.status(403).json({ error: "Email/Password mismatch" });
             return;
         }
-        const isMatch = await bcrypt_1.default.compare(password, user.password);
+        const isMatch = await bcryptjs_1.default.compare(password, user.password);
         if (!isMatch) {
             res.status(422).json({ error: "Email/Password mismatch" });
             return;

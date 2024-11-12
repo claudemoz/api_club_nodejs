@@ -19,6 +19,7 @@ services:
       - backend
 
   mysql:
+    container_name: mysql_db
     image: mysql:9.0
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -33,7 +34,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin
+    container_name: phpmyadmin_db
     ports:
       - "127.0.0.1:8080:80"
     environment:

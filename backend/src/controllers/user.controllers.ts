@@ -3,7 +3,7 @@ import User from '@/models/User';
 import UserFeature from '@/models/UserFeature';
 
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import SECRET from "@/config/keys";
 
 const EXPIRATION_TOKEN = 259200000;
