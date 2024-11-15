@@ -10,7 +10,7 @@ const keys_1 = __importDefault(require("@/config/keys"));
 function authorize(requiredRights) {
     return async (req, res, next) => {
         var _a;
-        const token = req.cookies.token || ((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
+        const token = req.cookies.accessToken || ((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
         try {
             console.log("token ", token);
             console.log("requiredRights ", requiredRights);
@@ -23,12 +23,14 @@ function authorize(requiredRights) {
                 res.status(403).json({ error: "Invalid token" });
                 return;
             }
-            const userFeature = await UserFeature_1.default.findAll({ where: { user_id: decodedToken.userId } });
+            const userFeature = await UserFeature_1.default.findAll({
+                where: { user_id: decodedToken.userId },
+            });
             if (!userFeature) {
                 res.status(403).json({ error: "Unauthorized" });
                 return;
             }
-            const userRights = userFeature === null || userFeature === void 0 ? void 0 : userFeature.map(r => r.feature_id);
+            const userRights = userFeature === null || userFeature === void 0 ? void 0 : userFeature.map((r) => r.feature_id);
             console.log("userRights ", userRights);
             const hasRequiredRights = requiredRights.some((right) => {
                 if (right === 1) {

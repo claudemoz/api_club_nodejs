@@ -4,6 +4,7 @@ const express_1 = require("express");
 const router = (0, express_1.Router)();
 const user_controllers_1 = require("@/controllers/user.controllers");
 router.post("/register", user_controllers_1.register);
+router.get("/current", user_controllers_1.getCurrentUser);
 router.post("/login", user_controllers_1.login);
 router.post("/logout", user_controllers_1.logout);
 router.post("/edit-role/:user_id(\\d+)", user_controllers_1.editRole);

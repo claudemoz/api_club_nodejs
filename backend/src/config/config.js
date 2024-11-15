@@ -1,14 +1,13 @@
-
-const fs = require('fs');
+const fs = require("fs");
 
 module.exports = {
   development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    username: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "db_club",
+    host: process.env.DB_HOST || "127.0.0.1",
     port: 3306,
-    dialect: 'mysql',
+    dialect: "mysql",
     // dialectOptions: {
     //   bigNumberStrings: true,
     // },
@@ -17,9 +16,9 @@ module.exports = {
     username: process.env.CI_DB_USERNAME,
     password: process.env.CI_DB_PASSWORD,
     database: process.env.CI_DB_NAME,
-    host: '127.0.0.1',
+    host: "127.0.0.1",
     port: 3306,
-    dialect: 'mysql',
+    dialect: "mysql",
     // dialectOptions: {
     //   bigNumberStrings: true,
     // },
@@ -30,7 +29,7 @@ module.exports = {
     database: process.env.PROD_DB_NAME,
     host: process.env.PROD_DB_HOSTNAME,
     port: process.env.PROD_DB_PORT,
-    dialect: 'mysql',
+    dialect: "mysql",
     // dialectOptions: {
     //   bigNumberStrings: true,
     //   ssl: {
