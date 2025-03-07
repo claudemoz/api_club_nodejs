@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editRole = exports.logout = exports.login = exports.register = exports.getCurrentUser = void 0;
+exports.editRole = exports.logout = exports.login = exports.register = exports.refreshToken = exports.getCurrentUser = void 0;
 const User_1 = __importDefault(require("@/models/User"));
 const UserFeature_1 = __importDefault(require("@/models/UserFeature"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -22,7 +22,8 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const keys_1 = __importDefault(require("@/config/keys"));
 const EXPIRATION_TOKEN = 259200000;
 const getCurrentUser = async (req, res) => {
-    const { accessToken } = req.cookies;
+    var _a, _b;
+    const accessToken = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken) || ((_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(" ")[1]);
     try {
         if (!accessToken) {
             res.json(null);
@@ -40,7 +41,7 @@ const getCurrentUser = async (req, res) => {
             res.json(null);
             return;
         }
-        const _a = user.toJSON(), { password } = _a, userWithoutPassword = __rest(_a, ["password"]);
+        const _c = user.toJSON(), { password } = _c, userWithoutPassword = __rest(_c, ["password"]);
         console.log(userWithoutPassword);
         res.status(200).send(userWithoutPassword);
     }
@@ -50,6 +51,29 @@ const getCurrentUser = async (req, res) => {
     }
 };
 exports.getCurrentUser = getCurrentUser;
+const refreshToken = async (req, res) => {
+    var _a, _b;
+    const accessToken = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken) || ((_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(" ")[1]);
+    try {
+        if (!accessToken) {
+            res.json(null);
+            return;
+        }
+        const decodedToken = jsonwebtoken_1.default.verify(accessToken, keys_1.default.keyPub);
+        if (!decodedToken || !decodedToken.userId) {
+            res.json(null);
+            return;
+        }
+        const token = createToken(decodedToken.userId);
+        res.cookie("accessToken", token, {});
+        res.status(200).send({ token });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Server error" });
+    }
+};
+exports.refreshToken = refreshToken;
 const register = async (req, res) => {
     const { email } = req.body;
     try {
@@ -86,7 +110,7 @@ const login = async (req, res) => {
         const token = createToken(user.user_id);
         res.cookie("accessToken", token, {});
         const _a = user.toJSON(), { password: userPassword } = _a, userWithoutPassword = __rest(_a, ["password"]);
-        res.status(200).send(userWithoutPassword);
+        res.status(200).send({ user: userWithoutPassword, token });
     }
     catch (e) {
         console.error(e);

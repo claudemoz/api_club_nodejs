@@ -1,0 +1,172 @@
+import 'package:flutter/material.dart';
+
+// Modèle de donnée pour une actualité
+class NewsItem {
+  final String title;
+  final String summary;
+  final String imageUrl;
+  final DateTime date;
+  final String category;
+
+  NewsItem({
+    required this.title,
+    required this.summary,
+    required this.imageUrl,
+    required this.date,
+    required this.category,
+  });
+}
+
+class NewsScreen extends StatelessWidget {
+  const NewsScreen({super.key});
+
+  // Liste factice des actualités (à remplacer par des données dynamiques)
+  static final List<NewsItem> _newsList = [
+    NewsItem(
+      title: 'Victoire historique de l\'équipe junior',
+      summary: 'Nos jeunes talents remportent le championnat régional',
+      imageUrl:
+          'https://media.istockphoto.com/id/576938444/fr/photo/collage-enfants-adultes-joueurs-de-football-en-action-sur-le-panorama-du-stade.jpg?s=612x612&w=0&k=20&c=gtcf4_CcBw6n0SkLpgmcz4-Lo7qM-cU6coMH96Fmvgo=',
+      date: DateTime.now(),
+      category: 'Sport',
+    ),
+    NewsItem(
+      title: 'Nouveau partenariat avec un club international',
+      summary: 'Un accord prometteur pour le développement de nos athlètes',
+      imageUrl:
+          'https://i.ytimg.com/vi/eu9lUbGJdLo/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AHUBoAC4AOKAgwIABABGC0gZSgmMA8=&rs=AOn4CLAxE3_CK1LaZlxf3EMyWC3shHIguA',
+      date: DateTime.now().subtract(Duration(days: 2)),
+      category: 'Club',
+    ),
+    NewsItem(
+      title: 'Stages d\'été ouverts aux inscriptions',
+      summary: 'Opportunité unique pour les jeunes talents de se perfectionner',
+      imageUrl:
+          'https://www.prepa-physique.net/wp-content/uploads/2023/02/stage-de-foot.jpeg',
+      date: DateTime.now().subtract(Duration(days: 5)),
+      category: 'Formation',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Actualités'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {
+              // Future: Implémentation du filtrage des actualités
+            },
+          ),
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Future: Logique de rafraîchissement des actualités
+          await Future.delayed(Duration(seconds: 1));
+        },
+        child: ListView.builder(
+          padding: EdgeInsets.all(16),
+          itemCount: _newsList.length,
+          itemBuilder: (context, index) {
+            return _buildNewsCard(_newsList[index], context);
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          // Future: Navigation vers l'écran de création d'actualité
+        },
+      ),
+    );
+  }
+
+  Widget _buildNewsCard(NewsItem news, BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image de l'actualité
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            child: Image.network(
+              news.imageUrl,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // Contenu de la carte
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Catégorie et date
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      news.category,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      _formatDate(news.date),
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 8),
+
+                // Titre
+                Text(
+                  news.title,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
+
+                SizedBox(height: 8),
+
+                // Résumé
+                Text(
+                  news.summary,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+
+                SizedBox(height: 12),
+
+                // Bouton Lire plus
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Future: Navigation vers les détails de l'actualité
+                    },
+                    child: Text('Lire plus'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Méthode utilitaire pour formater la date
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
+}

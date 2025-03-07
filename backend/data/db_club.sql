@@ -1,12 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : jeu. 17 oct. 2024 à 10:14
--- Version du serveur : 10.4.25-MariaDB
--- Version de PHP : 8.1.10
-use db_club;
+-- Hôte : mysql_db:3306
+-- Généré le : ven. 07 mars 2025 à 09:32
+-- Version du serveur : 8.0.41
+-- Version de PHP : 8.2.27
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -28,17 +28,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `club` (
-  `club_id` int(11) NOT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `history` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `club_id` int NOT NULL,
+  `description` text,
+  `history` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `club`
 --
 
 INSERT INTO `club` (`club_id`, `description`, `history`) VALUES
-(1, 'description', 'history update');
+(1, 'Hitema FC est un club de football professionnel basé dans la ville \nd\'Hitema, une métropole dynamique connue pour son ambiance passionnée et\n son amour du sport. Fondé en 1985, Hitema FC a rapidement su se faire une \n place sur la scène nationale grâce à sa jeunesse et son enthousiasme. Le club évolue actuellement au Stade d\'Hitema, un stade moderne d’une capacité de 35 000 places, offrant une atmosphère incroyable lors de chaque match.\n\nAvec une approche axée sur le développement des jeunes joueurs et une forte communauté locale, Hitema FC est devenu un club à la fois ambitieux et respecté. Les couleurs du club sont le bleu et le blanc, symbolisant à la fois la sérénité et la détermination.', 'Fondation et débuts (1985-1995) :\nHitema FC a été fondé en 1985 par un groupe de passionnés de football désireux de promouvoir le sport dans la région d’Hitema. Le club a commencé dans les ligues inférieures, mais avec une gestion ambitieuse et des infrastructures modernes, il a rapidement progressé.');
 
 -- --------------------------------------------------------
 
@@ -47,10 +47,10 @@ INSERT INTO `club` (`club_id`, `description`, `history`) VALUES
 --
 
 CREATE TABLE `feature` (
-  `feature_id` int(11) NOT NULL,
+  `feature_id` int NOT NULL,
   `label` varchar(45) DEFAULT NULL,
   `type` enum('role','right') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `feature`
@@ -79,12 +79,12 @@ INSERT INTO `feature` (`feature_id`, `label`, `type`) VALUES
 --
 
 CREATE TABLE `match` (
-  `match_id` int(11) NOT NULL,
+  `match_id` int NOT NULL,
   `score` varchar(45) DEFAULT NULL,
   `date_match` datetime DEFAULT NULL,
   `status` enum('victoire','défaite','nul') NOT NULL,
-  `team_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `team_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `match`
@@ -113,20 +113,24 @@ INSERT INTO `match` (`match_id`, `score`, `date_match`, `status`, `team_id`) VAL
 --
 
 CREATE TABLE `news` (
-  `news_id` int(11) NOT NULL,
+  `news_id` int NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `summary` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `date` datetime NOT NULL,
   `image` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `news`
 --
 
 INSERT INTO `news` (`news_id`, `title`, `summary`, `description`, `date`, `image`) VALUES
-(1, 'title update1', 'summary', 'description', '2024-10-15 09:38:46', NULL);
+(2, 'Victoire historique de l\\\'équipe junior', 'Nos jeunes talents remportent le championnat régional\'', NULL, '2025-03-06 22:39:31', 'https://media.istockphoto.com/id/576938444/fr/photo/collage-enfants-adultes-joueurs-de-football-en-action-sur-le-panorama-du-stade.jpg?s=612x612&w=0&k=20&c=gtcf4_CcBw6n0SkLpgmcz4-Lo7qM-cU6coMH96Fmvgo='),
+(3, 'Nouveau partenariat avec un club international', 'Un accord prometteur pour le développement de nos athlètes', NULL, '2025-03-06 22:39:31', 'https://i.ytimg.com/vi/eu9lUbGJdLo/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AHUBoAC4AOKAgwIABABGC0gZSgmMA8=&rs=AOn4CLAxE3_CK1LaZlxf3EMyWC3shHIguA'),
+(4, 'Stages d\'été ouverts aux inscriptions', 'Opportunité unique pour les jeunes talents de se perfectionner', NULL, '2025-03-06 22:39:31', 'https://www.prepa-physique.net/wp-content/uploads/2023/02/stage-de-foot.jpeg'),
+(8, 'cccccc', 'fggggggg', NULL, '2025-03-07 09:05:39', 'https://res.cloudinary.com/daogrxxyw/image/upload/v1741338338/shoes/ij8vdx0dh2zt6memcl1p.jpg'),
+(9, 'coupe du monde', 'dddddd', NULL, '2025-03-07 09:19:26', 'https://www.bfmtv.com/comparateur/wp-content/uploads/2020/09/image_1-4.png');
 
 -- --------------------------------------------------------
 
@@ -135,10 +139,10 @@ INSERT INTO `news` (`news_id`, `title`, `summary`, `description`, `date`, `image
 --
 
 CREATE TABLE `partner` (
-  `partner_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
   `logo` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `partner`
@@ -154,9 +158,9 @@ INSERT INTO `partner` (`partner_id`, `logo`, `url`) VALUES
 --
 
 CREATE TABLE `team` (
-  `team_id` int(11) NOT NULL,
+  `team_id` int NOT NULL,
   `label` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `team`
@@ -175,12 +179,12 @@ INSERT INTO `team` (`team_id`, `label`) VALUES
 --
 
 CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `firstname` varchar(45) DEFAULT NULL,
   `lastname` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `user`
@@ -188,7 +192,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `email`, `password`) VALUES
 (4, 'Moz', 'Toz', 'claudetsiangana@gmail.com', '$2b$10$iiA3xFDK.FXMISbnTWA8eOHgqpd6F7HyS8NVBgE0r1OJe5gLWLxAS'),
-(5, 'John', 'Dohn', '1claudetsiangana@gmail.com', '$2b$10$z5Li0515Qz4gmbbMJuZEz.UoJ.aYAxnFyQGrUGc70ypCQ/N8a3Pr6');
+(5, 'John', 'Dohn', '1claudetsiangana@gmail.com', '$2b$10$z5Li0515Qz4gmbbMJuZEz.UoJ.aYAxnFyQGrUGc70ypCQ/N8a3Pr6'),
+(6, 'User1', 'User1', 'user1@rrr.cd', '$2a$10$FWrJP8iaZY7344lrB784Zu2LWhgYTVQHBJiVrSzfSm80/6IhuEMS6');
 
 -- --------------------------------------------------------
 
@@ -197,10 +202,10 @@ INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `email`, `password`) VAL
 --
 
 CREATE TABLE `user_feature` (
-  `user_feature_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `feature_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `user_feature_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `feature_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `user_feature`
@@ -209,7 +214,8 @@ CREATE TABLE `user_feature` (
 INSERT INTO `user_feature` (`user_feature_id`, `user_id`, `feature_id`) VALUES
 (1, 4, 12),
 (2, 4, 1),
-(3, 5, 1);
+(3, 5, 1),
+(4, 6, 2);
 
 --
 -- Index pour les tables déchargées
@@ -274,49 +280,49 @@ ALTER TABLE `user_feature`
 -- AUTO_INCREMENT pour la table `club`
 --
 ALTER TABLE `club`
-  MODIFY `club_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `club_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `feature`
 --
 ALTER TABLE `feature`
-  MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `feature_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `match`
 --
 ALTER TABLE `match`
-  MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `match_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `news_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `partner`
 --
 ALTER TABLE `partner`
-  MODIFY `partner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `partner_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `team`
 --
 ALTER TABLE `team`
-  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `team_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `user_feature`
 --
 ALTER TABLE `user_feature`
-  MODIFY `user_feature_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_feature_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
@@ -326,14 +332,14 @@ ALTER TABLE `user_feature`
 -- Contraintes pour la table `match`
 --
 ALTER TABLE `match`
-  ADD CONSTRAINT `match_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `match_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`);
 
 --
 -- Contraintes pour la table `user_feature`
 --
 ALTER TABLE `user_feature`
-  ADD CONSTRAINT `user_feature_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_feature_ibfk_2` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`feature_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_feature_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `user_feature_ibfk_2` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`feature_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

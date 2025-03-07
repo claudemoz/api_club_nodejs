@@ -1,0 +1,7 @@
+flutter_native_splash:
+  background_image: assets/images/splash_hitemafc.png
+  android_gravity: center
+  ios_content_mode: scaleAspectFill
+
+  android_12:
+    background_image: assets/images/splash_hitemafc.png

@@ -9,7 +9,9 @@ import SECRET from "@/config/keys";
 const EXPIRATION_TOKEN = 259200000;
 
 export const getCurrentUser: RequestHandler = async (req, res) => {
-  const { accessToken } = req.cookies;
+  const accessToken =
+    req.cookies?.accessToken || req.headers.authorization?.split(" ")[1];
+  // console.log("accessToken ", accessToken);
   try {
     if (!accessToken) {
       res.json(null);
@@ -34,6 +36,33 @@ export const getCurrentUser: RequestHandler = async (req, res) => {
     const { password, ...userWithoutPassword } = user.toJSON();
     console.log(userWithoutPassword);
     res.status(200).send(userWithoutPassword);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
+export const refreshToken: RequestHandler = async (req, res) => {
+  const accessToken =
+    req.cookies?.accessToken || req.headers.authorization?.split(" ")[1];
+  // console.log("accessToken ", accessToken);
+  try {
+    if (!accessToken) {
+      res.json(null);
+      return;
+    }
+
+    // Vérification du token
+    const decodedToken = jwt.verify(accessToken, SECRET.keyPub) as JwtPayload;
+    if (!decodedToken || !decodedToken.userId) {
+      res.json(null);
+      return;
+    }
+    const token = createToken(decodedToken.userId);
+    res.cookie("accessToken", token, {
+      // httpOnly: true,
+      // maxAge: Number(process.env.EXPIRATION_TOKEN) || EXPIRATION_TOKEN,
+    });
+    res.status(200).send({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Server error" });
@@ -82,7 +111,7 @@ export const login: RequestHandler = async (req, res) => {
     });
 
     const { password: userPassword, ...userWithoutPassword } = user.toJSON();
-    res.status(200).send(userWithoutPassword);
+    res.status(200).send({ user: userWithoutPassword, token });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Internal server error" });
